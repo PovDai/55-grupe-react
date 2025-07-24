@@ -20,7 +20,8 @@ export function AdminPage() {
         if (antras < 1) {
             return <div>
                     <p>Tikriausiai atsirado paveiksliukas</p>
-                    <img src="/img/movie-1753175346935-643197.jpg" alt="Paveikslėlis" />
+                <img src="/img/movie-1753175346935-643197.jpg" alt="Paveikslėlis" />
+            
                 </div>
         }
         return null;
