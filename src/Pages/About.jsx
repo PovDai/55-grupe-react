@@ -1,19 +1,21 @@
-import { Link } from 'react-router';
 
-import { Footer } from '../components/Footer';
-import { Header } from '../components/Header';
+
 export function About() {
     
     return (
            <>
            
-        <Header/>
-         <main>
-    <h1>About page</h1>
+      
+         
+     <div className="container">
+                <div className="row">
+                <h1>About Page</h1></div>
+            
+            </div>
         
-            </main>
+            
 
-        <Footer/>
+      
         
         
         </>

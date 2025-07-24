@@ -1,11 +1,16 @@
-import { Header } from '../components/Header';
+
 import { useParams } from "react-router";
 export function ServiceInner() {
     let { service} = useParams();
     return (
         <>
-            <Header/>
-        <div>ServiceInner zodis po service/ {service}</div>
+   
+      <div className="container">
+                <div className="row">
+                    <h1>ServiceInner Page {service}</h1></div>
+            
+            </div>
+        
         </>
     )
 }

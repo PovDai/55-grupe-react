@@ -1,14 +1,15 @@
-import { Header } from "../components/Header"
-import { Footer } from "../components/Footer"
+
 export function Login() {
     
     return (
         <>
-        <Header/>
+ 
         
-            <h1>Login page</h1>
+          <div className="container">
+                <div className="row">
+                <h1>Login Page</h1></div>
             
-             <Footer/>
+            </div>
         </>
     )
 }

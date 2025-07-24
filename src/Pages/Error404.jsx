@@ -7,9 +7,10 @@ export function Error404() {
     
     return (
         <>
-        <Header/>
-        <div>Error 404 TOKS PUSLAPIS NEEGZISTUOJA -{splat}
         
+         <div className="container">
+                <div className="row">
+                    <h1>TOKS PUSLAPIS NEEGZISTUOJS {splat}</h1></div>
         </div>
         </>
     )

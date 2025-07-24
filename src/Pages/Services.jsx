@@ -1,12 +1,16 @@
-import { Header } from "../components/Header"
+
 export function Services() {
     
     return (
         <>
        
 
-            <Header />
-            <h1>Services puslapis</h1>
+          <div className="container">
+                <div className="row">
+                <h1>Services Pages</h1></div>
+            
+            </div>
+       
         </>
     )
 }
