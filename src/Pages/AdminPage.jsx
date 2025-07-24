@@ -12,6 +12,7 @@ export function AdminPage() {
         setAntras(antras / 2);
     }
 
+    let count = 0;
     function naujas() {
         if (skaicius > 4) {
             return `Jūs paspaudėte jau ${skaicius} kartų`;
