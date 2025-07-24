@@ -1,12 +1,12 @@
 
 
-export function Main(props) {
-    console.log(props)
+export function Main({children}) {
+
     
     return (
         <main className="mainas">
             Main content here
-            {props.children}
+            {children}
         </main>
 
     );

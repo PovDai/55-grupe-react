@@ -3,6 +3,9 @@ import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { Main } from "./components/Main";
 import { Title } from "./components/Title";
+import { AdminPage } from "./components/AdminPage";
+import { NotAdminPage } from "./components/NotAdminPage";
+import Square from "./components/Square"
 
 
 export function App() {
@@ -11,6 +14,9 @@ export function App() {
 
   return (
     <>
+      
+      <AdminPage> </AdminPage>
+      <AdminPage> </AdminPage>
       <Header />
       <Main>
         <Title text="Labas rytas, Lietuva cia title text" desc="" />
@@ -23,7 +29,11 @@ export function App() {
         <Title text="Kontaktai" desc="Cia kontaktu description"/>
         <div>kazkas cia slepiasi </div>
       </Main>
-     <Footer/>
+      <NotAdminPage />
+      
+      <Footer />
+      <Square/>
+      
     </>
   )
 }
