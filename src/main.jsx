@@ -11,7 +11,9 @@ import { Error404 } from './Pages/Error404.jsx';
 import { Services } from './Pages/Services.jsx';
 import { ServiceInner } from './Pages/ServiceInner.jsx';
 import { PublicTemplate } from './templates/PublicTemplates.jsx';
-
+import { Movies } from './Pages/Movies.jsx';
+import { Categories } from './Pages/Categories.jsx';
+import { AdminPage } from './Pages/AdminPage.jsx';
 createRoot(document.getElementById('root')).render(
  
   <StrictMode>
@@ -19,16 +21,20 @@ createRoot(document.getElementById('root')).render(
       <Routes>
             <Route element={<PublicTemplate />}>
           
-              <Route path='/' element={<Home />} />
-              <Route path='/about' element={<About />} />
-              <Route path='/login' element={<Login />} />
-              <Route path='/register' element={<Register />} />
-              <Route path='/services/:service' element={<ServiceInner />} />
-              <Route path='/services' element={<Services />} />
+                <Route path='/' element={<Home />} />
+                <Route path='/about' element={<About />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/register' element={<Register />} />
+                <Route path='/services/:service' element={<ServiceInner />} />
+                <Route path='/services' element={<Services />} />
+                <Route path='/movies' element={<Movies />} />
+                <Route path='/categories' element={<Categories />} />
+                <Route path='/admin' element={<AdminPage/> } />
 
-              <Route path='/*' element={<Error404 />} />
+                <Route path='/*' element={<Error404 />} />
           
-            </Route>
+        </Route>
+      
         
           </Routes>
       </BrowserRouter>
