@@ -22,8 +22,8 @@ export function Footer() {
                 <p className="timer">{time.toLocaleTimeString()} {time.toLocaleDateString()}</p>
                 <ul className="nav col-md-8 justify-content-end">
                  {commonHeaderMenuData.map((link, index) => (
-                        <li key={index}>
-                            <NavLink to={link.href} className="nav-link px-2">
+                        <li key={index} >
+                            <NavLink to={link.href} className="nav-link px-2 ">
                                 {link.text}
                             </NavLink>
                         </li>

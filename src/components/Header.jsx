@@ -17,7 +17,7 @@ export function Header() {
                 <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                     {commonHeaderMenuData.map((link, index) => (
                         <li key={index}>
-                            <NavLink to={link.href} className="nav-link px-2">
+                            <NavLink to={link.href} className="nav-link px-2 active">
                                 {link.text}
                             </NavLink>
                         </li>

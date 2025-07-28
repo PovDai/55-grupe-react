@@ -1,0 +1,12 @@
+.title-list{
+    display: flex;
+    flex-direction: column;
+    gap:1rem;
+}
+.title-list .title{
+
+    font-size: 2rem;
+}
+.color{
+    
+}

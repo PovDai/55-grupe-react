@@ -1,23 +1,20 @@
 
+import { CookieClicker } from "../components/cookie-clicker/CookieClicker";
+
 
 export function About() {
     
     return (
-           <>
-           
-      
-         
+
      <div className="container">
                 <div className="row">
-                <h1>About Page</h1></div>
-            
+                    <div className="col-12">
+                    <CookieClicker />
+                    
+                    </div>
             </div>
-        
-            
+            </div>
 
-      
-        
-        
-        </>
+
     )
 }

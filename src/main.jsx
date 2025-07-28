@@ -14,6 +14,10 @@ import { PublicTemplate } from './templates/PublicTemplates.jsx';
 import { Movies } from './Pages/Movies.jsx';
 import { Categories } from './Pages/Categories.jsx';
 import { AdminPage } from './Pages/AdminPage.jsx';
+import { Dashboard } from './Pages/admin/Dashboard.jsx';
+import { NotAdminPage } from './components/NotAdminPage.jsx';
+import { ProtectedRoute } from './components/ProtectedRoute.jsx';
+
 createRoot(document.getElementById('root')).render(
  
   <StrictMode>
@@ -29,14 +33,17 @@ createRoot(document.getElementById('root')).render(
                 <Route path='/services' element={<Services />} />
                 <Route path='/movies' element={<Movies />} />
                 <Route path='/categories' element={<Categories />} />
-                <Route path='/admin' element={<AdminPage/> } />
-
+                <Route path='/admin' element={<AdminPage />} />
+                <Route path='/notAdmin' element={<NotAdminPage />} />
                 <Route path='/*' element={<Error404 />} />
-          
-        </Route>
-      
+                </Route>
         
-          </Routes>
-      </BrowserRouter>
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/dashboard" element={<Dashboard />} />
+                </Route>
+
+                  <Route path='/*' element={<Error404 />} />
+       </Routes>
+    </BrowserRouter>
   </StrictMode>,
 );
