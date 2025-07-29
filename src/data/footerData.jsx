@@ -6,6 +6,7 @@
         { href: '/register', text: 'Register' },
         { href: '/services', text: 'Services' },
          { href: '/about', text: 'About' },
-        { href: '/admin', text: 'AdminPage' },
+         { href: '/admin', text: 'AdminPage' },
+        { href: '/dublicate', text: 'Dublicate-services' },
 ];
     

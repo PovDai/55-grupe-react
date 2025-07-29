@@ -1,4 +1,12 @@
-export function ServicesList({ services, onDelete, onEdit }) {
+export function ServicesList({title, services, onDelete, onEdit }) {
+    if (services.length === 0) {
+        return (
+            <div>
+                <h1>{title}</h1>   
+            <h5>Empty list </h5>
+            </div>
+        )
+    }
     return (
         <ul className="list-group">
             {services.map(service => (

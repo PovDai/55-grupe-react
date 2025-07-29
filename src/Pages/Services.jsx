@@ -3,11 +3,18 @@ import { useState } from "react";
 
 // Importuojame vaikų komponentą, kuris atvaizduos paslaugų sąrašą
 import { ServicesList } from "../components/services/ServicesList";
+import "../components/form/form.css"
 
 // Eksportuojame Services komponentą
 export function Services() {
+
+    const [text, setText] = useState('');
+    const [vegetablesList, setVegetablesList] = useState([]);
+    const [vegetablesId, setVegetablesId] = useState(1);
+    
+
     // nextId – skaitiklis, skirtas generuoti unikalius ID naujoms paslaugoms
-    const [nextId, setNextId] = useState(5);
+    const [nextId, setNextId] = useState(5); // pradine reiksme nes pradzioje 4 id buvo. 
 
     // list – tai masyvas, kuriame saugomos paslaugos (kiekviena turi id ir value)
     const [list, setList] = useState([
@@ -17,8 +24,9 @@ export function Services() {
         { id: 4, value: 'ux' }
     ]);
 
+
     // editingId – saugo, kuri paslauga šiuo metu redaguojama (pagal ID)
-    const [editingId, setEditingId] = useState(null);
+    const [editingId, setEditingId] = useState(null); // pradine reiksme 
 
     // editValue – saugo laikinas redaguojamos paslaugos tekstas
     const [editValue, setEditValue] = useState('');
@@ -28,7 +36,7 @@ export function Services() {
         setList(currentList => [
             ...currentList, // paliekame visas senas paslaugas
             { id: nextId, value: 'new item' } // pridedame naują su unikaliu ID
-        ]);
+]);
         setNextId(n => n + 1); // padidiname ID skaitiklį
     }
 
@@ -39,7 +47,7 @@ export function Services() {
     }
 
     // Funkcija, kuri inicijuoja paslaugos redagavimą
-    function startEditing(item) {
+    function startEditing(item) { // item yra service  kuris atkeliauja is services.map o jame yra list raktai;
         setEditingId(item.id);      // nustatome, kuri paslauga redaguojama
         setEditValue(item.value);   // į input'ą įkeliame esamą reikšmę
     }
@@ -61,6 +69,17 @@ export function Services() {
     function cancelEditing() {
         setEditingId(null);  // atšaukiame pasirinkimą
         setEditValue('');    // išvalome tekstą
+    }
+    function handelFormSubmit(e) {
+        e.preventDefault();
+        setVegetablesList(veges => [...veges, { id: vegetablesId, value: text }]);
+        setVegetablesId(id => id + 1);
+        setText('')
+    }
+
+    function handelInputChange(e) {
+        setText(e.target.value)
+        
     }
 
     // JSX grąžinamas turinys (HTML struktūra)
@@ -102,11 +121,23 @@ export function Services() {
 
                     {/* Komponentas, kuris atvaizduoja visas paslaugas */}
                     <ServicesList 
+                        title='My Services'
                         services={list}           // perduodame paslaugų sąrašą
                         onDelete={handleDelete}   // perduodame trynimo funkciją
                         onEdit={startEditing}     // perduodame redagavimo paleidimo funkciją
                     />
+                    <ServicesList 
+                        title='Darzoves'
+                        services={vegetablesList}          
+                     
+                    />
                 </div>
+                <form onSubmit={handelFormSubmit}>
+                    <label htmlFor="text">Message</label>
+                    <input onChange={handelInputChange} className="form-control" type="text" id="text"  value={text} required/>
+                    <button className="btn btn-primary" type="submit">Add</button>
+                
+                </form>
             </div>
         </div>
     );

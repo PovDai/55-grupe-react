@@ -17,6 +17,7 @@ import { AdminPage } from './Pages/AdminPage.jsx';
 import { Dashboard } from './Pages/admin/Dashboard.jsx';
 import { NotAdminPage } from './components/NotAdminPage.jsx';
 import { ProtectedRoute } from './components/ProtectedRoute.jsx';
+import { Dublicate } from './Pages/Dublicate.jsx';
 
 createRoot(document.getElementById('root')).render(
  
@@ -35,6 +36,8 @@ createRoot(document.getElementById('root')).render(
                 <Route path='/categories' element={<Categories />} />
                 <Route path='/admin' element={<AdminPage />} />
                 <Route path='/notAdmin' element={<NotAdminPage />} />
+                <Route path='/dublicate' element={<Dublicate/>}/>
+          
                 <Route path='/*' element={<Error404 />} />
                 </Route>
         
