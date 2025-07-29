@@ -12,7 +12,7 @@ import { Services } from './Pages/Services.jsx';
 import { ServiceInner } from './Pages/ServiceInner.jsx';
 import { PublicTemplate } from './templates/PublicTemplates.jsx';
 import { Movies } from './Pages/Movies.jsx';
-import { Categories } from './Pages/Categories.jsx';
+import {  MyToDo } from './Pages/MyTodo.jsx';
 import { AdminPage } from './Pages/AdminPage.jsx';
 import { Dashboard } from './Pages/admin/Dashboard.jsx';
 import { NotAdminPage } from './components/NotAdminPage.jsx';
@@ -33,7 +33,7 @@ createRoot(document.getElementById('root')).render(
                 <Route path='/services/:service' element={<ServiceInner />} />
                 <Route path='/services' element={<Services />} />
                 <Route path='/movies' element={<Movies />} />
-                <Route path='/categories' element={<Categories />} />
+                <Route path='/mytodo' element={<MyToDo />} />
                 <Route path='/admin' element={<AdminPage />} />
                 <Route path='/notAdmin' element={<NotAdminPage />} />
                 <Route path='/dublicate' element={<Dublicate/>}/>
