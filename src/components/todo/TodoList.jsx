@@ -10,9 +10,12 @@ export function TodoList({ list, modifyTaskFunc }) {
                             {item.text}
                             <button onClick={() => modifyTaskFunc(item.id)} className="btn btn-danger btn-sm ms-auto">Remove</button>
                         </li>
+                
+                    
                     ))
                 }
             </ul>
+        
         </>
     )
 }
