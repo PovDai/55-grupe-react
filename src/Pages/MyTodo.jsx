@@ -36,13 +36,15 @@ export function MyToDo() {
                         <div className="" >
                             
                                     <MyForm pridekTaska={pridek}  />
-                            <MyList modifyTaskFunc={modifyTask} list={list.filter(item => !item.isCompleted)} color={list} />
+                            <MyList modifyTaskFunc={modifyTask} list={list.filter(item => !item.isCompleted)} />
                         </div>
                         
 
                         <MyStats
                             esami={list.filter(item=>!item.isCompleted).length} 
                             atlikta={list.filter(item => item.isCompleted).length}
+                            list={list}
+                            modifyTaskFunc={modifyTask}
             
                         />
                     </div>
