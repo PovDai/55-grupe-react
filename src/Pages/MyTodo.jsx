@@ -3,7 +3,7 @@ import { MyList } from "../components/mytodo/MyList";
 import { MyStats } from "../components/mytodo/MyStats";
 import '../components/form/myform.css'
 import { useState } from "react";
-import { Counter } from "../components/mytodo/MyCounter";
+import {  MoodTracker } from "../components/mytodo/MyCounter";
 
 export function MyToDo() {
     const [id, setId] = useState(1);
@@ -48,7 +48,7 @@ export function MyToDo() {
                             modifyTaskFunc={modifyTask}
             
                         />
-                        <Counter/>
+                        <MoodTracker/>
                     </div>
                 </div>
             </div>
