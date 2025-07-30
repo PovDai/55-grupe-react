@@ -1,144 +1,129 @@
-// Importuojame useState hook'ą iš React – leidžia komponentui saugoti ir keisti vidinę būseną
-import { useState } from "react";
+// React bibliotekos importai
+import { useEffect, useState } from "react";
+// Vaikinių komponentų importai
+import { TodoForm } from "../components/todo/TodoForm";
+import { TodoList } from "../components/todo/TodoList";
+import { TodoStats } from "../components/todo/TodoStats";
 
-// Importuojame vaikų komponentą, kuris atvaizduos paslaugų sąrašą
-import { ServicesList } from "../components/services/ServicesList";
-import "../components/form/form.css"
-
-// Eksportuojame Services komponentą
+// Pagrindinis Services komponentas
 export function Services() {
-
-    const [text, setText] = useState('');
-    const [vegetablesList, setVegetablesList] = useState([]);
-    const [vegetablesId, setVegetablesId] = useState(1);
+    // localStorage raktas duomenims saugoti
+    const dataKey = '55gr-todo';
     
+    // State kintamieji:
+    const [tabIndex, setTabIndex] = useState(0); // Aktyvus tab'as (0-all, 1-active, 2-completed)
+    const [id, setId] = useState(1);             // Unikalus ID naujiems užduočiams
+    const [list, setList] = useState([]);        // Užduočių sąrašas
 
-    // nextId – skaitiklis, skirtas generuoti unikalius ID naujoms paslaugoms
-    const [nextId, setNextId] = useState(5); // pradine reiksme nes pradzioje 4 id buvo. 
+    // Efektas užkrovus komponentą - užkrauname išsaugotus duomenis
+    useEffect(() => {
+        const data = JSON.parse(localStorage.getItem(dataKey));
+        console.log(data); // Konsolėje patikriname gautus duomenis
 
-    // list – tai masyvas, kuriame saugomos paslaugos (kiekviena turi id ir value)
-    const [list, setList] = useState([
-        { id: 1, value: 'design' },
-        { id: 2, value: 'development' },
-        { id: 3, value: 'management' },
-        { id: 4, value: 'ux' }
-    ]);
+        if (data) {
+            setList(data); // Jei yra išsaugoti duomenys, atnaujiname state
+        } else {
+            // Jei nėra, inicijuojame tuščią masyvą localStorage
+            localStorage.setItem(dataKey, JSON.stringify(list));
+        }
+    }, []); // Tuščias dependency masyvas - vykdomas tik vieną kartą
 
+    // Efektas, vykdomas kiekvieną kartą pasikeitus sąrašui
+    useEffect(() => {
+        localStorage.setItem(dataKey, JSON.stringify(list)); // Išsaugome sąrašą
+    }, [list]); // Priklauso nuo list state
 
-    // editingId – saugo, kuri paslauga šiuo metu redaguojama (pagal ID)
-    const [editingId, setEditingId] = useState(null); // pradine reiksme 
+    // Filtruojame sąrašą pagal aktyvų tab'ą
+    let filteredList = list; // Standartinis - visos užduotys
+    if (tabIndex === 1) {
+        filteredList = list.filter(item => !item.isCompleted); // Tik nebaigtos
+    }
+    if (tabIndex === 2) {
+        filteredList = list.filter(item => item.isCompleted); // Tik baigtos
+    }
 
-    // editValue – saugo laikinas redaguojamos paslaugos tekstas
-    const [editValue, setEditValue] = useState('');
-
-    // Funkcija, kuri prideda naują paslaugą su 'new item' tekstu
-    function handleAdd() {
+    // Funkcija naujai užduočiai pridėti
+    function addTask(text) {
         setList(currentList => [
-            ...currentList, // paliekame visas senas paslaugas
-            { id: nextId, value: 'new item' } // pridedame naują su unikaliu ID
-]);
-        setNextId(n => n + 1); // padidiname ID skaitiklį
+            ...currentList, // Esamos užduotys
+            {             // Nauja užduotis
+                id: id,    // Unikalus ID
+                text: text, // Užduoties tekstas
+                isCompleted: false, // Ar užbaigta (standartiškai - ne)
+            },
+        ]);
+        setId(id => id + 1); // Padidiname ID sekantiems įrašams
     }
 
-    // Funkcija, kuri pašalina paslaugą pagal jos ID
-    function handleDelete(idToDelete) {
-        // Filtruojame sąrašą – paliekame tik tas paslaugas, kurių ID nesutampa su nurodytu
-        setList(currentList => currentList.filter(item => item.id !== idToDelete));
+    // Funkcija užduoties statusui pakeisti (į užbaigtą)
+    function modifyTaskCompletion(taskId) {
+        setList(currectList => currectList.map(
+            task => task.id === taskId ? {
+                ...task,                   // Visi esami task duomenys
+                isCompleted: true,         // Atnaujiname tik statusą
+            } : task
+        ));
     }
 
-    // Funkcija, kuri inicijuoja paslaugos redagavimą
-    function startEditing(item) { // item yra service  kuris atkeliauja is services.map o jame yra list raktai;
-        setEditingId(item.id);      // nustatome, kuri paslauga redaguojama
-        setEditValue(item.value);   // į input'ą įkeliame esamą reikšmę
+    // Funkcija užduoties tekstui atnaujinti
+    function modifyTaskText(taskId, newText) {
+        setList(currectList => currectList.map(
+            task => task.id === taskId ? {
+                ...task,                   // Visi esami task duomenys
+                text: newText,            // Atnaujiname tik tekstą
+            } : task
+        ));
     }
 
-    // Funkcija, kuri išsaugo redaguotą paslaugą
-    function handleUpdate() {
-        // Atkuriame sąrašą – pakeičiame tik redaguojamą elementą
-        setList(currentList =>
-            currentList.map(item =>
-                item.id === editingId
-                    ? { ...item, value: editValue } // jei ID sutampa – atnaujiname
-                    : item // kiti lieka nepakitę
-            )
-        );
-        cancelEditing(); // išvalome redagavimo režimą
-    }
-
-    // Funkcija, kuri atšaukia redagavimą
-    function cancelEditing() {
-        setEditingId(null);  // atšaukiame pasirinkimą
-        setEditValue('');    // išvalome tekstą
-    }
-    function handelFormSubmit(e) {
-        e.preventDefault();
-        setVegetablesList(veges => [...veges, { id: vegetablesId, value: text }]);
-        setVegetablesId(id => id + 1);
-        setText('')
-    }
-
-    function handelInputChange(e) {
-        setText(e.target.value)
-        
-    }
-
-    // JSX grąžinamas turinys (HTML struktūra)
+    // Komponento grąžinamas JSX
     return (
-        <div className="container">
-            <div className="row">
-                <div className="col-12">
-                    {/* Mygtukas naujai paslaugai pridėti */}
-                    <button onClick={handleAdd} className="btn btn-primary mb-3">
-                        Pridėti naują paslaugą
-                    </button>
-
-                    {/* Jei kažkas redaguojama – rodomas redagavimo langas */}
-                    {editingId !== null && (
-                        <div className="card mb-3">
-                            <div className="card-body">
-                                <h5>Redaguoti įrašą</h5>
-                                
-                                {/* Teksto laukas redaguojamai reikšmei įvesti */}
-                                <input
-                                    type="text"
-                                    value={editValue} // rodomas dabartinis redaguojamas tekstas
-                                    onChange={(e) => setEditValue(e.target.value)} // keičiam redaguojamą tekstą
-                                    className="form-control mb-2"
-                                />
-
-                                {/* Mygtukas išsaugoti pakeitimus */}
-                                <button onClick={handleUpdate} className="btn btn-success me-2">
-                                    Išsaugoti
+        <main>
+            <div className="container">
+                <div className="row flex-column-reverse flex-md-row">
+                    <div className="col-12 col-md-8">
+                        {/* Todo forma su perduodama addTask funkcija */}
+                        <TodoForm addTaskFunc={addTask} />
+                        
+                        {/* Tab'ų navigacija */}
+                        <nav>
+                            <div className="nav nav-tabs mb-3" role="tablist">
+                                {/* Visos užduotys tab'as */}
+                                <button className={'nav-link' + (tabIndex === 0 ? ' active' : '')}
+                                    onClick={() => setTabIndex(() => 0)} type="button">
+                                    All tasks
                                 </button>
-
-                                {/* Mygtukas atšaukti redagavimą */}
-                                <button onClick={cancelEditing} className="btn btn-secondary">
-                                    Atšaukti
+                                
+                                {/* Aktyvios užduotys tab'as */}
+                                <button className={'nav-link' + (tabIndex === 1 ? ' active' : '')}
+                                    onClick={() => setTabIndex(() => 1)} type="button">
+                                    Active tasks
+                                </button>
+                                
+                                {/* Užbaigtos užduotys tab'as */}
+                                <button className={'nav-link' + (tabIndex === 2 ? ' active' : '')}
+                                    onClick={() => setTabIndex(() => 2)} type="button">
+                                    Completed tasks
                                 </button>
                             </div>
-                        </div>
-                    )}
-
-                    {/* Komponentas, kuris atvaizduoja visas paslaugas */}
-                    <ServicesList 
-                        title='My Services'
-                        services={list}           // perduodame paslaugų sąrašą
-                        onDelete={handleDelete}   // perduodame trynimo funkciją
-                        onEdit={startEditing}     // perduodame redagavimo paleidimo funkciją
-                    />
-                    <ServicesList 
-                        title='Darzoves'
-                        services={vegetablesList}          
-                     
-                    />
+                        </nav>
+                        
+                        {/* Todo sąrašas su perduodamais duomenimis ir funkcijomis */}
+                        <TodoList 
+                            list={filteredList}
+                            modifyTaskTextFunc={modifyTaskText}
+                            modifyTaskCompletionFunc={modifyTaskCompletion} 
+                        />
+                    </div>
+                    
+                    {/* Dešinėje pusėje - statistika */}
+                    <div className="col-12 col-md-4 mb-5">
+                        <TodoStats
+                            activeCount={list.filter(item => !item.isCompleted).length}
+                            completedCount={list.filter(item => item.isCompleted).length} 
+                        />
+                    </div>
                 </div>
-                <form onSubmit={handelFormSubmit}>
-                    <label htmlFor="text">Message</label>
-                    <input onChange={handelInputChange} className="form-control" type="text" id="text"  value={text} required/>
-                    <button className="btn btn-primary" type="submit">Add</button>
-                
-                </form>
             </div>
-        </div>
+        </main>
     );
 }

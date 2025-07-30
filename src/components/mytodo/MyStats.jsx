@@ -1,5 +1,5 @@
-export function MyStats({ esami, atlikta, list,modifyTaskFunc }) {
-  const data = list.filter(item => item.color === 'red'||item.color==="green")  // Filtruojame raudonus elementus
+export function MyStats({ esami, atlikta, list }) {
+  const data = list.filter(item => item.color === 'red'||item.color==="green"||item.color==='blue')  // Filtruojame raudonus elementus
   console.log(data)  // Patikriname, kas filtruojama
 
   if (data.length > 0) {  // Jei radome raudonų elementų

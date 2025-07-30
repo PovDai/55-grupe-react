@@ -10,5 +10,8 @@ export function MyList({list,modifyTaskFunc}) {
                 </ul>
             </div>
         </div>
+        
     )
 }
+
+
